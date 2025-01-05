@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Ringprüfung</title>
+        <link rel="stylesheet" href="ring.css"> 
+        <code></code>
+    </head>
+    <body>
+        <h1>Prüfen ob eine Zahlenmenge ein Ring ist</h1>
+        <form id="ringcheck">
+            <label for="menge">Menge (durch Komma getrennte Zahlen):</label><br>
+            <select id="menge" onchange="setMenge()" required>
+                <option>Z - Ganze Zahlen</option>
+                <option>R - Reele Zahlen</option>
+                <option value="custom">Benutzerdefiniert</option>
+            </select>
+
+            <div id="input" class="hidden">
+                <input type="text" id="set" placeholder="z.B. 1,2,3,4" required><br>
+            </div>
+
+            <br>
+            <button type="button" onclick="proccessForm()">Prüfen</button>
+        </form>
+        <div id="result"></div>
+
+        <script src="ring.js"></script>
+    </body>
+</html>
