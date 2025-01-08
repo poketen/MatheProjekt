@@ -35,7 +35,16 @@ button {
     cursor: pointer;
     color: #000;
 }
-
+.result {
+    margin-top: 10px;
+    padding: 5px;
+     width: 50vh;
+     height: 6vh;
+     background-color: rgb(173, 173, 173);
+  border: 1px solid #000000;
+  border-radius: 4px;
+  margin-bottom: 10px;
+ }
 button:hover {
     background-color: rgb(68, 85, 95); 
 }

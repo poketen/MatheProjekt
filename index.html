@@ -39,8 +39,18 @@
             border-radius: 4px;
             cursor: pointer;
             color: #000;
+            margin-bottom: 10px;
         }
-
+        .result {
+           margin-top: 10px;
+           padding: 5px;
+            width: 50vh;
+            height: 6vh;
+            background-color: rgb(173, 173, 173);
+         border: 1px solid #000000;
+         border-radius: 4px;
+         margin-bottom: 10px;
+        }
         button:hover {
             background-color: rgb(68, 85, 95); 
         }
@@ -81,14 +91,14 @@
 
     <button type="button" onclick="checkGroup()">Prüfen</button>
 </form>
-
-<div id="result">Ergebnis:</div>
+<div>Ergebnis:</div>
+<div class="result" id="result"></div>
 
 </body>
 </html>
 <div class="nav-links">
-    <a href="koerper.html">Körper Prüfen</a>
-    <a href="ring.html">Ringe Prüfen</a>
+    <button onclick="window.location.href='koerper.html'">Körper Prüfen</button>
+    <button onclick="window.location.href='ring.html'">Ringe Prüfen</button>
 </div>
 <script>
     
