@@ -23,7 +23,8 @@
             border-radius: 4px;
             background-color: rgb(173, 173, 173);
         }
-         input[type="text"] {
+
+        input[type="text"] {
             width: 24%;
             padding: 10px;
             margin: 10px 0;
@@ -41,16 +42,18 @@
             color: #000;
             margin-bottom: 10px;
         }
+
         .result {
-           margin-top: 10px;
-           padding: 5px;
+            margin-top: 10px;
+            padding: 5px;
             width: 50vh;
             height: 6vh;
             background-color: rgb(173, 173, 173);
-         border: 1px solid #000000;
-         border-radius: 4px;
-         margin-bottom: 10px;
+            border: 1px solid #000000;
+            border-radius: 4px;
+            margin-bottom: 10px;
         }
+
         button:hover {
             background-color: rgb(68, 85, 95); 
         }
@@ -68,7 +71,7 @@
     <label for="menge">Menge:</label><br>
     <select id="menge" onchange="showInput()" required>
         <option value ="Z">Z - Ganze Zahlen</option>
-        <option value ="R">R - Reele Zahlen</option>
+        <option value ="R">R - Reelle Zahlen</option>
         <option value="user">Benutzerdefiniert</option>
     </select>
 
@@ -77,32 +80,17 @@
     </div>
     <br>
     <label for="operation">Verknüpfung:</label><br>
-    <select id="operation" onchange="showModuloInput()" required>
+    <select id="operation" required>
         <option value="addition">Addition (+)</option>
-        <option value="subtraktion">Subtraktion (-)</option>
         <option value="multiplication">Multiplikation (*)</option>
-
     </select><br>
-
-    <div id="moduloInput" class="hidden">
-        <label for="modulus">Modulus:</label><br>
-        <input type="number" id="modulus" placeholder="z.B. 5" min="1"><br>
-    </div>
 
     <button type="button" onclick="checkGroup()">Prüfen</button>
 </form>
 <div>Ergebnis:</div>
 <div class="result" id="result"></div>
 
-</body>
-</html>
-<div class="nav-links">
-    <button onclick="window.location.href='koerper.html'">Körper Prüfen</button>
-    <button onclick="window.location.href='ring.html'">Ringe Prüfen</button>
-</div>
 <script>
-    
-
     function showInput() {
         const menge = document.getElementById("menge").value;
         const inputDiv = document.getElementById("input");
@@ -117,27 +105,29 @@
     function checkGroup() {
         const menge = document.getElementById("menge").value;
         const operation = document.getElementById("operation").value;
-        
         const resultElement = document.getElementById("result");
 
         let neutralesElement = false;
         let inversesElement = false;
         let assoziativ = false;
+        let kommutativ = false;
         let set;
 
         if (menge === "Z") {
             set = [-3, -2, -1, 0, 1, 2, 3];  // Ausschnitt der ganzen Zahlen
         } else if (menge === "R") {
-            set = [-1,-0.5,0,0.5,1];  // Ausschnitt der reellen Zahlen
+            set = [-1, -0.5, 0, 0.5, 1];  // Ausschnitt der reellen Zahlen
         } else if (menge === "user") {
             set = document.getElementById("set").value.split(",").map(Number);
         }
+
         if (set.some(isNaN)) {
             resultElement.textContent = "Die Menge G enthält ungültige Werte.";
             return;
         }
 
-        assoziativ = assoziativitätsPrüfung(set, operation); 
+        assoziativ = assoziativitätsPrüfung(set, operation);
+        kommutativ = kommutativitätsPrüfung(set, operation);
 
         if (operation === "addition") {
             neutralesElement = set.includes(0);
@@ -145,24 +135,25 @@
         } else if (operation === "multiplication") {
             neutralesElement = set.includes(1);
             inversesElement = set.every(a => a !== 0 && set.includes(1 / a));
-        }  else if (operation === "subtraktion") {
-            neutralesElement = set.includes(0);
-            inversesElement = set.every(a => set.includes(a)); 
         } 
 
-   
         if (neutralesElement && inversesElement && assoziativ) {
-            resultElement.textContent = "Die Menge bildet eine Gruppe.";
-            resultElement.style.color = "green";
+            if (kommutativ) {
+                resultElement.textContent = "Die Menge bildet eine Abelsche Gruppe!";
+                resultElement.style.color = "green";
+            } else {
+                resultElement.textContent = "Die Menge bildet eine Gruppe, aber keine Abelsche Gruppe.";
+                resultElement.style.color = "orange";
+            }
         } else {
             resultElement.textContent = "Die Menge bildet keine Gruppe.";
             resultElement.style.color = "red";
         }
     }
 
+
 //grundlage von https://www.youtube.com/watch?v=GFVrItmzn0o 
 // durch die verschachtelte schleife werden alle werte in der Menge durchgegangen und wie im video miteinander einzeln verglichen, wenn etwas nicht stimmt dann wird false zurückgegeben. 
-
     function assoziativitätsPrüfung(set, operation) {
         const length = set.length;
         for (let i = 0; i < length; i++) {
@@ -176,13 +167,10 @@
                     if (operation === "addition") {
                         left = a + b + c;
                         right = a + (b + c);
-                    } else if (operation === "subtraktion") {
-                        left = a - b - c;
-                        right = a - (b - c);
-                    } else if (operation === "multiplication") {
+                    }  else if (operation === "multiplication") {
                         left = a * b * c;
                         right = a * (b * c);
-                    } 
+                    }
 
                     if (left !== right) {
                         return false; 
@@ -191,6 +179,30 @@
             }
         }
         return true; 
+    }
+
+    function kommutativitätsPrüfung(set, operation) {
+        const length = set.length;
+        for (let i = 0; i < length; i++) {
+            for (let j = 0; j < length; j++) {
+                let a = set[i];
+                let b = set[j];
+                let left, right;
+
+                if (operation === "addition") {
+                    left = a + b;
+                    right = b + a;
+                } else if (operation === "multiplication") {
+                    left = a * b;
+                    right = b * a;
+                } 
+
+                if (left !== right) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 </script>
 
