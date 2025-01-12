@@ -39,9 +39,15 @@ function setMenge(){
 
     if (menge === "custom") {
         inputDiv.classList.remove('hidden');
-    } else {
+    } 
+    else if (menge === "Z") {
+        resultElement.textContent = "Die Menge bildet einen Ring.";
+        resultElement.style.color = "green";
         inputDiv.classList.add('hidden');
-    }
+    } else if (menge === "R") {
+        resultElement.textContent = "Die Menge bildet einen Ring.";
+        resultElement.style.color = "green";
+        inputDiv.classList.add('hidden');
 }
 
 function assoziativitätsPrüfung(set){
