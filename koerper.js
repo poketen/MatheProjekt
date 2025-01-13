@@ -5,7 +5,7 @@ function proccessForm(){
     if (menge === "Z") {
         set = [-3, -2, -1, 0, 1, 2, 3];  // Ausschnitt der ganzen Zahlen
     } else if (menge === "R") {
-        set = [-1, 0, 1];  // Ausschnitt der reellen Zahlen
+        set = [-2, -1, -0.5, 0, 0.5, 1, 2];  // Ausschnitt der reellen Zahlen
     } else if (menge === "user") {
         set = document.getElementById("set").value.split(",").map(Number);
     }
