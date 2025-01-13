@@ -1,5 +1,15 @@
 function proccessForm(){
-    const set = document.getElementById("set").value.split(",").map(Number);
+    const menge = document.getElementById("menge").value;
+    let set = document.getElementById("set").value.split(",").map(Number);
+    
+    if (menge === "Z") {
+        set = [-3, -2, -1, 0, 1, 2, 3];  // Ausschnitt der ganzen Zahlen
+    } else if (menge === "R") {
+        set = [-1, -0.5, 0, 0.5, 1];  // Ausschnitt der reellen Zahlen
+    } else if (menge === "user") {
+        set = document.getElementById("set").value.split(",").map(Number);
+    }
+
     const resultElement = document.getElementById("result");
 
     let assoziativ = false;
@@ -41,13 +51,10 @@ function setMenge(){
         inputDiv.classList.remove('hidden');
     } 
     else if (menge === "Z") {
-        resultElement.textContent = "Die Menge bildet einen Ring.";
-        resultElement.style.color = "green";
         inputDiv.classList.add('hidden');
     } else if (menge === "R") {
-        resultElement.textContent = "Die Menge bildet einen Ring.";
-        resultElement.style.color = "green";
         inputDiv.classList.add('hidden');
+    }
 }
 
 function assoziativitätsPrüfung(set){

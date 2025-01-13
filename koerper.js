@@ -1,22 +1,55 @@
 function proccessForm(){
-    const set = document.getElementById("set").value.split(",").map(Number);
+    const menge = document.getElementById("menge").value;
+    let set = document.getElementById("set").value.split(",").map(Number);
+    
+    if (menge === "Z") {
+        set = [-3, -2, -1, 0, 1, 2, 3];  // Ausschnitt der ganzen Zahlen
+    } else if (menge === "R") {
+        set = [-1, 0, 1];  // Ausschnitt der reellen Zahlen
+    } else if (menge === "user") {
+        set = document.getElementById("set").value.split(",").map(Number);
+    }
+
     const resultElement = document.getElementById("result");
     let ring = false;
     let inversesElement = false;
 
     ring = abelscheRingPruefung(set);
-    inversesElement = set.filter(a => a !== 0).every(a => set.includes(1 / a));
+    inversesElement = invers(set);
     if (ring && inversesElement){
         resultElement.textContent = "Die Menge bildet einen Körper.";
         resultElement.style.color = "green";
     }else{
+        console.log(ring + " , " + inversesElement) 
         resultElement.textContent = "Die Menge bildet keinen Körper.";
         resultElement.style.color = "red";
     }
+}
 
-
-
-
+function invers(set){
+    const length = set.length;
+    let counter = 0;
+    for (let i = 0; i < length; i++){
+        let a = set[i];
+        counter++;
+        if (a !== 0){
+            for (let s = 0; s < length; s++){
+                let b = set[s];
+                if (a * b === 1){
+                    counter--;
+                    break;
+                }
+            }
+        }else{
+            counter--;
+        }
+    }
+    if (counter === 0){
+        return true;
+    }else{
+        console.log(counter);
+        return false;
+    }
 }
 
 function abelscheRingPruefung(set){
@@ -165,6 +198,7 @@ function abelschPruefung2(set){
                 left = a * b;
                 right = b * a;
                 if (left !== right) {
+                    console.log("abelsch2");
                     return false; 
                 }
         }
